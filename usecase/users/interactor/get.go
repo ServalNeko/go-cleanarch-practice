@@ -1,7 +1,7 @@
 package interactor
 
 import (
-	"go-arch-practice/domain/users"
+	"go-arch-practice/usecase/users"
 	"go-arch-practice/usecase/users/ports"
 )
 

@@ -1,7 +1,8 @@
 package interactor
 
 import (
-	"go-arch-practice/domain/users"
+	domain "go-arch-practice/domain/users"
+	"go-arch-practice/usecase/users"
 	"go-arch-practice/usecase/users/ports"
 
 	"github.com/google/uuid"
@@ -22,7 +23,7 @@ func NewUserRegisterInteractor(userRepo users.IUserRepository) *UserRegisterInte
 func (u *UserRegisterInteractor) Handle(input *ports.UserRegisterInputData) (*ports.UserRegisterOutputData, error) {
 	// ユーザ生成はファクトリで行った方がいいけど、今回は省略
 	id := uuid.New().String()
-	user, err := users.NewUser(id, input.Name(), users.NomalUser)
+	user, err := domain.NewUser(id, input.Name(), domain.NomalUser)
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,7 @@
 package interactor
 
 import (
-	"go-arch-practice/domain/users"
+	"go-arch-practice/usecase/users"
 	"go-arch-practice/usecase/users/ports"
 )
 
@@ -17,7 +17,7 @@ func NewUserGetAllInteractor(userRepo users.IUserRepository) *UserGetAllInteract
 	}
 }
 
-func (u *UserGetAllInteractor) Handle(input *ports.UserGetAllInputData) (*ports.UserGetAllOutputData, error) {
+func (u *UserGetAllInteractor) Handle() (*ports.UserGetAllOutputData, error) {
 	users, err := u.userRepo.FindAll()
 	if err != nil {
 		return nil, err
