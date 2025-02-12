@@ -1,0 +1,164 @@
+basePath: /
+definitions:
+  models.UserGetResponseModel:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  models.UserIndexResponseModel:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/models.UserResponseModel'
+        type: array
+    type: object
+  models.UserPostRequestModel:
+    properties:
+      name:
+        type: string
+    type: object
+  models.UserPostResponseModel:
+    properties:
+      created_id:
+        type: string
+    type: object
+  models.UserPutRequestModel:
+    properties:
+      name:
+        type: string
+    type: object
+  models.UserResponseModel:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: ユーザ一覧を取得します
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserIndexResponseModel'
+      summary: ユーザ一覧取得
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: ユーザを登録します
+      parameters:
+      - description: ユーザー
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserPostRequestModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserPostResponseModel'
+      summary: ユーザ登録
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: ユーザを削除します
+      parameters:
+      - description: ユーザID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: ユーザ削除
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: ユーザを取得します
+      parameters:
+      - description: ユーザID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserGetResponseModel'
+      summary: ユーザ取得
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: ユーザを更新します
+      parameters:
+      - description: ユーザID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: ユーザー
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserPutRequestModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserPostResponseModel'
+      summary: ユーザ更新
+      tags:
+      - users
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"

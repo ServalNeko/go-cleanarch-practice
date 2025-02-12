@@ -25,7 +25,7 @@ func (u *UserGetAllInteractor) Handle() (*ports.UserGetAllOutputData, error) {
 
 	var data = make([]ports.UserData, len(users))
 	for i, user := range users {
-		data[i] = *ports.NewUserData(user.ID(), user.Name())
+		data[i] = *ports.NewUserData(user.ID().Value(), user.Name())
 	}
 
 	return ports.NewUserGetAllOutputData(data), nil

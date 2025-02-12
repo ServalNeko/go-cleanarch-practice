@@ -8,5 +8,6 @@ type IUserRepository interface {
 	FindByIds(ids []string) ([]domain.User, error)
 	FindAll() ([]domain.User, error)
 	Save(user *domain.User) error
+	Update(user *domain.User) error
 	Delete(user *domain.User) error
 }

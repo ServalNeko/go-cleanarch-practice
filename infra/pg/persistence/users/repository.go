@@ -66,7 +66,7 @@ func (r *UserRepository) FindAll() ([]domain.User, error) {
 
 func (r *UserRepository) Save(user *domain.User) error {
 	userDataModel := &models.UserDataModel{
-		Id:       user.ID(),
+		Id:       user.ID().Value(),
 		Name:     user.Name(),
 		UserType: int(user.UserType()),
 	}
@@ -74,17 +74,28 @@ func (r *UserRepository) Save(user *domain.User) error {
 	return err
 }
 
-func (r *UserRepository) Delete(user *domain.User) error {
+func (r *UserRepository) Update(user *domain.User) error {
 	userDataModel := &models.UserDataModel{
-		Id:       user.ID(),
+		Id:       user.ID().Value(),
 		Name:     user.Name(),
 		UserType: int(user.UserType()),
 	}
-	_, err := r.db.NewDelete().Model(userDataModel).Exec(context.Background())
+	_, err := r.db.NewUpdate().Model(userDataModel).WherePK().Exec(context.Background())
+	return err
+}
+
+func (r *UserRepository) Delete(user *domain.User) error {
+	userDataModel := &models.UserDataModel{
+		Id:       user.ID().Value(),
+		Name:     user.Name(),
+		UserType: int(user.UserType()),
+	}
+	_, err := r.db.NewDelete().Model(userDataModel).WherePK().Exec(context.Background())
 	return err
 }
 
 func (r *UserRepository) toDomainModel(from models.UserDataModel) *domain.User {
-	u, _ := domain.NewUser(from.Id, from.Name, domain.UserType(from.UserType))
+	id, _ := domain.NewUserID(from.Id)
+	u, _ := domain.NewUser(id, from.Name, domain.UserType(from.UserType))
 	return u
 }

@@ -1,6 +1,9 @@
 package users
 
-import "errors"
+import (
+	"errors"
+	"go-arch-practice/domain/lib"
+)
 
 type UserType int
 
@@ -9,26 +12,40 @@ const (
 	PremiumUser
 )
 
+type UserID struct {
+	lib.ValueObject[string]
+}
+
+func NewUserID(id string) (*UserID, error) {
+	if id == "" {
+		return nil, errors.New("id is empty")
+	}
+
+	return &UserID{
+		lib.NewValueObject(id),
+	}, nil
+}
+
 type User struct {
-	id       string
+	id       UserID
 	name     string
 	userType UserType
 }
 
-func NewUser(id, name string, userType UserType) (*User, error) {
+func NewUser(id *UserID, name string, userType UserType) (*User, error) {
 
-	if id == "" || name == "" {
+	if id == nil || name == "" {
 		return nil, errors.New("id or name is empty")
 	}
 
 	return &User{
-		id:       id,
+		id:       *id,
 		name:     name,
 		userType: userType,
 	}, nil
 }
 
-func (u *User) ID() string {
+func (u *User) ID() UserID {
 	return u.id
 }
 

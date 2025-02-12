@@ -28,5 +28,5 @@ func (u *UserDeleteInteractor) Handle(input *ports.UserDeleteInputData) (*ports.
 		return nil, err
 	}
 
-	return ports.NewUserDeleteOutputData(user.ID()), nil
+	return ports.NewUserDeleteOutputData(user.ID().Value()), nil
 }

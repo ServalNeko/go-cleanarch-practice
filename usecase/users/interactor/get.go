@@ -23,7 +23,7 @@ func (u *UserGetInteractor) Handle(input *ports.UserGetInputData) (*ports.UserGe
 		return nil, err
 	}
 
-	var data = ports.NewUserData(user.ID(), user.Name())
+	var data = ports.NewUserData(user.ID().Value(), user.Name())
 
 	return ports.NewUserGetOutputData(*data), nil
 }

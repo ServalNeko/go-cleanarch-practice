@@ -23,7 +23,8 @@ func NewUserRegisterInteractor(userRepo users.IUserRepository) *UserRegisterInte
 func (u *UserRegisterInteractor) Handle(input *ports.UserRegisterInputData) (*ports.UserRegisterOutputData, error) {
 	// ユーザ生成はファクトリで行った方がいいけど、今回は省略
 	id := uuid.New().String()
-	user, err := domain.NewUser(id, input.Name(), domain.NomalUser)
+	userID, _ := domain.NewUserID(id)
+	user, err := domain.NewUser(userID, input.Name(), domain.NomalUser)
 	if err != nil {
 		return nil, err
 	}
@@ -33,5 +34,5 @@ func (u *UserRegisterInteractor) Handle(input *ports.UserRegisterInputData) (*po
 		return nil, err
 	}
 
-	return ports.NewUserRegisterOutputData(user.ID()), nil
+	return ports.NewUserRegisterOutputData(user.ID().Value()), nil
 }
