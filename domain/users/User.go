@@ -27,7 +27,7 @@ func NewUserID(id string) (*UserID, error) {
 }
 
 type User struct {
-	id       UserID
+	id       *UserID
 	name     string
 	userType UserType
 }
@@ -39,14 +39,14 @@ func NewUser(id *UserID, name string, userType UserType) (*User, error) {
 	}
 
 	return &User{
-		id:       *id,
+		id:       id,
 		name:     name,
 		userType: userType,
 	}, nil
 }
 
 func (u *User) ID() UserID {
-	return u.id
+	return *u.id
 }
 
 func (u *User) Name() string {

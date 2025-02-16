@@ -2,19 +2,18 @@ package interactor
 
 import (
 	domain "go-arch-practice/domain/users"
-	"go-arch-practice/usecase/users"
 	"go-arch-practice/usecase/users/ports"
 
 	"github.com/google/uuid"
 )
 
 type UserRegisterInteractor struct {
-	userRepo users.IUserRepository
+	userRepo domain.IUserRepository
 }
 
 var _ ports.IUserRegisterInputPort = (*UserRegisterInteractor)(nil)
 
-func NewUserRegisterInteractor(userRepo users.IUserRepository) *UserRegisterInteractor {
+func NewUserRegisterInteractor(userRepo domain.IUserRepository) *UserRegisterInteractor {
 	return &UserRegisterInteractor{
 		userRepo: userRepo,
 	}

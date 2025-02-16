@@ -2,19 +2,17 @@ package users
 
 import (
 	"context"
+	domain "go-arch-practice/domain/users"
 	"go-arch-practice/infra/pg/persistence/models"
-	"go-arch-practice/usecase/users"
 
 	"github.com/uptrace/bun"
-
-	domain "go-arch-practice/domain/users"
 )
 
 type UserRepository struct {
 	db bun.IDB
 }
 
-var _ users.IUserRepository = (*UserRepository)(nil)
+var _ domain.IUserRepository = (*UserRepository)(nil)
 
 func NewUserRepository(db bun.IDB) *UserRepository {
 	return &UserRepository{db: db}

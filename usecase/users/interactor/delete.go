@@ -1,17 +1,17 @@
 package interactor
 
 import (
-	"go-arch-practice/usecase/users"
+	domain "go-arch-practice/domain/users"
 	"go-arch-practice/usecase/users/ports"
 )
 
 type UserDeleteInteractor struct {
-	userRepo users.IUserRepository
+	userRepo domain.IUserRepository
 }
 
 var _ ports.IUserDeleteInputPort = (*UserDeleteInteractor)(nil)
 
-func NewUserDeleteInteractor(userRepo users.IUserRepository) *UserDeleteInteractor {
+func NewUserDeleteInteractor(userRepo domain.IUserRepository) *UserDeleteInteractor {
 	return &UserDeleteInteractor{
 		userRepo: userRepo,
 	}
@@ -28,5 +28,5 @@ func (u *UserDeleteInteractor) Handle(input *ports.UserDeleteInputData) (*ports.
 		return nil, err
 	}
 
-	return ports.NewUserDeleteOutputData(user.ID().Value()), nil
+	return ports.NewUserDeleteOutputData(), nil
 }

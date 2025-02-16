@@ -20,16 +20,8 @@ func (u *UserDeleteInputData) ID() string {
 	return u.id
 }
 
-type UserDeleteOutputData struct {
-	id string
-}
+type UserDeleteOutputData struct{}
 
-func NewUserDeleteOutputData(id string) *UserDeleteOutputData {
-	return &UserDeleteOutputData{
-		id: id,
-	}
-}
-
-func (u *UserDeleteOutputData) ID() string {
-	return u.id
+func NewUserDeleteOutputData() *UserDeleteOutputData {
+	return &UserDeleteOutputData{}
 }

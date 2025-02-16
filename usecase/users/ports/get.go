@@ -21,15 +21,15 @@ func (u *UserGetInputData) ID() string {
 }
 
 type UserGetOutputData struct {
-	user UserData
+	user *UserData
 }
 
-func NewUserGetOutputData(user UserData) *UserGetOutputData {
+func NewUserGetOutputData(user *UserData) *UserGetOutputData {
 	return &UserGetOutputData{
 		user: user,
 	}
 }
 
-func (u *UserGetOutputData) User() UserData {
+func (u *UserGetOutputData) User() *UserData {
 	return u.user
 }

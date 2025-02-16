@@ -1,17 +1,17 @@
 package interactor
 
 import (
-	"go-arch-practice/usecase/users"
+	domain "go-arch-practice/domain/users"
 	"go-arch-practice/usecase/users/ports"
 )
 
 type UserUpdateInteractor struct {
-	userRepo users.IUserRepository
+	userRepo domain.IUserRepository
 }
 
 var _ ports.IUserUpdateInputPort = (*UserUpdateInteractor)(nil)
 
-func NewUserUpdateInteractor(userRepo users.IUserRepository) *UserUpdateInteractor {
+func NewUserUpdateInteractor(userRepo domain.IUserRepository) *UserUpdateInteractor {
 	return &UserUpdateInteractor{
 		userRepo: userRepo,
 	}

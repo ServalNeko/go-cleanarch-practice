@@ -1,17 +1,17 @@
 package interactor
 
 import (
-	"go-arch-practice/usecase/users"
+	domain "go-arch-practice/domain/users"
 	"go-arch-practice/usecase/users/ports"
 )
 
 type UserGetInteractor struct {
-	userRepo users.IUserRepository
+	userRepo domain.IUserRepository
 }
 
 var _ ports.IUserGetInputPort = (*UserGetInteractor)(nil)
 
-func NewUserGetInteractor(userRepo users.IUserRepository) *UserGetInteractor {
+func NewUserGetInteractor(userRepo domain.IUserRepository) *UserGetInteractor {
 	return &UserGetInteractor{
 		userRepo: userRepo,
 	}
@@ -25,5 +25,5 @@ func (u *UserGetInteractor) Handle(input *ports.UserGetInputData) (*ports.UserGe
 
 	var data = ports.NewUserData(user.ID().Value(), user.Name())
 
-	return ports.NewUserGetOutputData(*data), nil
+	return ports.NewUserGetOutputData(data), nil
 }
