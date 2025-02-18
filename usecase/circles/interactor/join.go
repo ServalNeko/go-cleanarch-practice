@@ -41,7 +41,7 @@ func (c *CircleJoinInteractor) Handle(input *ports.CircleJoinInputData) (*ports.
 		return nil, err
 	}
 
-	err = c.circle_repo.Update(circle)
+	err = c.circle_repo.Save(circle)
 
 	return ports.NewCircleJoinOutputData(), err
 }

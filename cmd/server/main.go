@@ -1,14 +1,18 @@
 package main
 
 import (
+	"go-arch-practice/domain/circles"
+	circle_domain "go-arch-practice/domain/circles"
 	"go-arch-practice/infra/pg"
-	user_repo "go-arch-practice/infra/pg/persistence/users"
+	"go-arch-practice/infra/pg/persistence/repo"
+	circle_usecase "go-arch-practice/usecase/circles/interactor"
 	user_usecase "go-arch-practice/usecase/users/interactor"
 	"go-arch-practice/web/handlers"
 	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
 
 	_ "go-arch-practice/cmd/server/docs"
@@ -46,19 +50,34 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	e.Use(middleware.CORS())
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	eg := e.Group("/users")
 	uh := handlers.NewUserHandler(
 		eg,
-		user_usecase.NewUserGetInteractor(user_repo.NewUserRepository(db)),
-		user_usecase.NewUserGetAllInteractor(user_repo.NewUserRepository(db)),
-		user_usecase.NewUserUpdateInteractor(user_repo.NewUserRepository(db)),
-		user_usecase.NewUserRegisterInteractor(user_repo.NewUserRepository(db)),
-		user_usecase.NewUserDeleteInteractor(user_repo.NewUserRepository(db)),
+		user_usecase.NewUserGetInteractor(repo.NewUserRepository(db)),
+		user_usecase.NewUserGetAllInteractor(repo.NewUserRepository(db)),
+		user_usecase.NewUserUpdateInteractor(repo.NewUserRepository(db)),
+		user_usecase.NewUserRegisterInteractor(repo.NewUserRepository(db)),
+		user_usecase.NewUserDeleteInteractor(repo.NewUserRepository(db)),
 	)
 	uh.Regist()
+
+	ec := e.Group("/circles")
+	ch := handlers.NewCircleHandler(
+		ec,
+		circle_usecase.NewCircleGetInteractor(repo.NewCircleRepository(db)),
+		circle_usecase.NewCircleGetAllInteractor(repo.NewCircleRepository(db)),
+		circle_usecase.NewCircleRegisterInteractor(repo.NewCircleRepository(db), repo.NewUserRepository(db), circles.NewCircleService(repo.NewCircleRepository(db))),
+		circle_usecase.NewCircleUpdateInteractor(repo.NewCircleRepository(db), circle_domain.NewCircleService(repo.NewCircleRepository(db))),
+		circle_usecase.NewCircleJoinInteractor(repo.NewCircleRepository(db), repo.NewUserRepository(db)),
+		circle_usecase.NewCircleDeleteInteractor(repo.NewCircleRepository(db)),
+		user_usecase.NewUserGetInteractor(repo.NewUserRepository(db)),
+	)
+
+	ch.Regist()
 
 	if err := e.Start(":8000"); err != nil {
 		log.Fatal(err)

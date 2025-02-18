@@ -2,6 +2,7 @@ package pg
 
 import (
 	"database/sql"
+	"go-arch-practice/infra/pg/persistence/models"
 	"time"
 
 	"github.com/uptrace/bun"
@@ -18,6 +19,8 @@ func NewDB() (*DB, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	db.RegisterModel((*models.UserToCircle)(nil))
 
 	return &DB{db}, nil
 }

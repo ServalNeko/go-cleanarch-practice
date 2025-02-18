@@ -1,35 +1,65 @@
 basePath: /
 definitions:
-  models.UserGetResponseModel:
+  go-arch-practice_web_models.CircleIndexResponseModel:
+    properties:
+      circles:
+        items:
+          $ref: '#/definitions/go-arch-practice_web_models.CircleResponseModel'
+        type: array
+    type: object
+  go-arch-practice_web_models.CirclePostRequestModel:
+    properties:
+      circle_name:
+        type: string
+      owner_id:
+        type: string
+    type: object
+  go-arch-practice_web_models.CirclePostResponseModel:
+    properties:
+      created_id:
+        type: string
+    type: object
+  go-arch-practice_web_models.CircleResponseModel:
+    properties:
+      id:
+        type: string
+      member_ids:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+    type: object
+  go-arch-practice_web_models.UserGetResponseModel:
     properties:
       id:
         type: string
       name:
         type: string
     type: object
-  models.UserIndexResponseModel:
+  go-arch-practice_web_models.UserIndexResponseModel:
     properties:
       users:
         items:
-          $ref: '#/definitions/models.UserResponseModel'
+          $ref: '#/definitions/go-arch-practice_web_models.UserResponseModel'
         type: array
     type: object
-  models.UserPostRequestModel:
+  go-arch-practice_web_models.UserPostRequestModel:
     properties:
       name:
         type: string
     type: object
-  models.UserPostResponseModel:
+  go-arch-practice_web_models.UserPostResponseModel:
     properties:
       created_id:
         type: string
     type: object
-  models.UserPutRequestModel:
+  go-arch-practice_web_models.UserPutRequestModel:
     properties:
       name:
         type: string
     type: object
-  models.UserResponseModel:
+  go-arch-practice_web_models.UserResponseModel:
     properties:
       id:
         type: string
@@ -53,6 +83,42 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /circles:
+    get:
+      consumes:
+      - application/json
+      description: サークル一覧を取得します
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-arch-practice_web_models.CircleIndexResponseModel'
+      summary: サークル一覧取得
+      tags:
+      - circles
+    post:
+      consumes:
+      - application/json
+      description: サークルを登録します
+      parameters:
+      - description: サークル
+        in: body
+        name: circle
+        required: true
+        schema:
+          $ref: '#/definitions/go-arch-practice_web_models.CirclePostRequestModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-arch-practice_web_models.CirclePostResponseModel'
+      summary: サークル登録
+      tags:
+      - circles
   /users:
     get:
       consumes:
@@ -64,7 +130,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UserIndexResponseModel'
+            $ref: '#/definitions/go-arch-practice_web_models.UserIndexResponseModel'
       summary: ユーザ一覧取得
       tags:
       - users
@@ -78,14 +144,14 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/models.UserPostRequestModel'
+          $ref: '#/definitions/go-arch-practice_web_models.UserPostRequestModel'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UserPostResponseModel'
+            $ref: '#/definitions/go-arch-practice_web_models.UserPostResponseModel'
       summary: ユーザ登録
       tags:
       - users
@@ -128,7 +194,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UserGetResponseModel'
+            $ref: '#/definitions/go-arch-practice_web_models.UserGetResponseModel'
       summary: ユーザ取得
       tags:
       - users
@@ -147,14 +213,14 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/models.UserPutRequestModel'
+          $ref: '#/definitions/go-arch-practice_web_models.UserPutRequestModel'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UserPostResponseModel'
+            $ref: '#/definitions/go-arch-practice_web_models.UserPostResponseModel'
       summary: ユーザ更新
       tags:
       - users

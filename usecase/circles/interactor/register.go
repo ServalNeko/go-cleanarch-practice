@@ -17,8 +17,8 @@ type CircleRegisterInteractor struct {
 
 func NewCircleRegisterInteractor(
 	circle_repo domain_circle.ICircleRepository,
-	circle_service domain_circle.ICircleService,
 	user_repo domain_users.IUserRepository,
+	circle_service domain_circle.ICircleService,
 ) *CircleRegisterInteractor {
 	return &CircleRegisterInteractor{
 		circle_repo:    circle_repo,

@@ -25,7 +25,7 @@ func (u *UserUpdateInteractor) Handle(input *ports.UserUpdateInputData) (*ports.
 
 	user.ChangeName(input.Name())
 
-	err = u.userRepo.Update(user)
+	err = u.userRepo.Save(user)
 	if err != nil {
 		return nil, err
 	}

@@ -1,6 +1,6 @@
 package ports
 
-type ICircleUpdatePort interface {
+type ICircleUpdateInputPort interface {
 	Handle(input *CircleUpdateInputData) (*CircleUpdateOutputData, error)
 }
 

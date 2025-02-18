@@ -11,7 +11,14 @@ type CircleUpdateInteractor struct {
 	service domain.ICircleService
 }
 
-var _ ports.ICircleUpdatePort = (*CircleUpdateInteractor)(nil)
+var _ ports.ICircleUpdateInputPort = (*CircleUpdateInteractor)(nil)
+
+func NewCircleUpdateInteractor(repo domain.ICircleRepository, service domain.ICircleService) *CircleUpdateInteractor {
+	return &CircleUpdateInteractor{
+		repo:    repo,
+		service: service,
+	}
+}
 
 func (c *CircleUpdateInteractor) Handle(input *ports.CircleUpdateInputData) (*ports.CircleUpdateOutputData, error) {
 
@@ -30,7 +37,7 @@ func (c *CircleUpdateInteractor) Handle(input *ports.CircleUpdateInputData) (*po
 
 	}
 
-	err = c.repo.Update(circle)
+	err = c.repo.Save(circle)
 	if err != nil {
 		return nil, err
 	}

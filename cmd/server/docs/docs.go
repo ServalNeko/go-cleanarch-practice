@@ -24,6 +24,61 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/circles": {
+            "get": {
+                "description": "サークル一覧を取得します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "circles"
+                ],
+                "summary": "サークル一覧取得",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/go-arch-practice_web_models.CircleIndexResponseModel"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "サークルを登録します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "circles"
+                ],
+                "summary": "サークル登録",
+                "parameters": [
+                    {
+                        "description": "サークル",
+                        "name": "circle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/go-arch-practice_web_models.CirclePostRequestModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/go-arch-practice_web_models.CirclePostResponseModel"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "description": "ユーザ一覧を取得します",
@@ -41,7 +96,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UserIndexResponseModel"
+                            "$ref": "#/definitions/go-arch-practice_web_models.UserIndexResponseModel"
                         }
                     }
                 }
@@ -65,7 +120,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UserPostRequestModel"
+                            "$ref": "#/definitions/go-arch-practice_web_models.UserPostRequestModel"
                         }
                     }
                 ],
@@ -73,7 +128,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UserPostResponseModel"
+                            "$ref": "#/definitions/go-arch-practice_web_models.UserPostResponseModel"
                         }
                     }
                 }
@@ -105,7 +160,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UserGetResponseModel"
+                            "$ref": "#/definitions/go-arch-practice_web_models.UserGetResponseModel"
                         }
                     }
                 }
@@ -136,7 +191,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UserPutRequestModel"
+                            "$ref": "#/definitions/go-arch-practice_web_models.UserPutRequestModel"
                         }
                     }
                 ],
@@ -144,7 +199,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UserPostResponseModel"
+                            "$ref": "#/definitions/go-arch-practice_web_models.UserPostResponseModel"
                         }
                     }
                 }
@@ -185,7 +240,54 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.UserGetResponseModel": {
+        "go-arch-practice_web_models.CircleIndexResponseModel": {
+            "type": "object",
+            "properties": {
+                "circles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/go-arch-practice_web_models.CircleResponseModel"
+                    }
+                }
+            }
+        },
+        "go-arch-practice_web_models.CirclePostRequestModel": {
+            "type": "object",
+            "properties": {
+                "circle_name": {
+                    "type": "string"
+                },
+                "owner_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "go-arch-practice_web_models.CirclePostResponseModel": {
+            "type": "object",
+            "properties": {
+                "created_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "go-arch-practice_web_models.CircleResponseModel": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "member_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "go-arch-practice_web_models.UserGetResponseModel": {
             "type": "object",
             "properties": {
                 "id": {
@@ -196,18 +298,18 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UserIndexResponseModel": {
+        "go-arch-practice_web_models.UserIndexResponseModel": {
             "type": "object",
             "properties": {
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.UserResponseModel"
+                        "$ref": "#/definitions/go-arch-practice_web_models.UserResponseModel"
                     }
                 }
             }
         },
-        "models.UserPostRequestModel": {
+        "go-arch-practice_web_models.UserPostRequestModel": {
             "type": "object",
             "properties": {
                 "name": {
@@ -215,7 +317,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UserPostResponseModel": {
+        "go-arch-practice_web_models.UserPostResponseModel": {
             "type": "object",
             "properties": {
                 "created_id": {
@@ -223,7 +325,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UserPutRequestModel": {
+        "go-arch-practice_web_models.UserPutRequestModel": {
             "type": "object",
             "properties": {
                 "name": {
@@ -231,7 +333,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UserResponseModel": {
+        "go-arch-practice_web_models.UserResponseModel": {
             "type": "object",
             "properties": {
                 "id": {

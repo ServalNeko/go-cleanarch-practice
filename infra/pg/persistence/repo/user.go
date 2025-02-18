@@ -1,4 +1,4 @@
-package users
+package repo
 
 import (
 	"context"
@@ -19,7 +19,7 @@ func NewUserRepository(db bun.IDB) *UserRepository {
 }
 
 func (r *UserRepository) FindById(id string) (*domain.User, error) {
-	userDataModel := &models.UserDataModel{}
+	userDataModel := &models.User{}
 	err := r.db.NewSelect().Model(userDataModel).Where("id = ?", id).Scan(context.Background())
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func (r *UserRepository) FindById(id string) (*domain.User, error) {
 }
 
 func (r *UserRepository) FindByName(name string) (*domain.User, error) {
-	userDataModel := &models.UserDataModel{}
+	userDataModel := &models.User{}
 	err := r.db.NewSelect().Model(userDataModel).Where("name = ?", name).Scan(context.Background())
 	if err != nil {
 		return nil, err
@@ -37,7 +37,7 @@ func (r *UserRepository) FindByName(name string) (*domain.User, error) {
 }
 
 func (r *UserRepository) FindByIds(ids []string) ([]domain.User, error) {
-	userDataModels := []models.UserDataModel{}
+	userDataModels := []models.User{}
 	err := r.db.NewSelect().Model(&userDataModels).Where("id IN (?)", ids).Scan(context.Background())
 	if err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func (r *UserRepository) FindByIds(ids []string) ([]domain.User, error) {
 }
 
 func (r *UserRepository) FindAll() ([]domain.User, error) {
-	userDataModels := []models.UserDataModel{}
+	userDataModels := []models.User{}
 	err := r.db.NewSelect().Model(&userDataModels).Scan(context.Background())
 	if err != nil {
 		return nil, err
@@ -63,27 +63,22 @@ func (r *UserRepository) FindAll() ([]domain.User, error) {
 }
 
 func (r *UserRepository) Save(user *domain.User) error {
-	userDataModel := &models.UserDataModel{
+	userDataModel := &models.User{
 		Id:       user.ID().Value(),
 		Name:     user.Name(),
 		UserType: int(user.UserType()),
 	}
-	_, err := r.db.NewInsert().Model(userDataModel).Exec(context.Background())
-	return err
-}
 
-func (r *UserRepository) Update(user *domain.User) error {
-	userDataModel := &models.UserDataModel{
-		Id:       user.ID().Value(),
-		Name:     user.Name(),
-		UserType: int(user.UserType()),
-	}
-	_, err := r.db.NewUpdate().Model(userDataModel).WherePK().Exec(context.Background())
+	_, err := r.db.NewInsert().
+		Model(userDataModel).
+		On("CONFLICT (id) DO UPDATE").
+		Exec(context.Background())
+
 	return err
 }
 
 func (r *UserRepository) Delete(user *domain.User) error {
-	userDataModel := &models.UserDataModel{
+	userDataModel := &models.User{
 		Id:       user.ID().Value(),
 		Name:     user.Name(),
 		UserType: int(user.UserType()),
@@ -92,7 +87,7 @@ func (r *UserRepository) Delete(user *domain.User) error {
 	return err
 }
 
-func (r *UserRepository) toDomainModel(from models.UserDataModel) *domain.User {
+func (r *UserRepository) toDomainModel(from models.User) *domain.User {
 	id, _ := domain.NewUserID(from.Id)
 	u, _ := domain.NewUser(id, from.Name, domain.UserType(from.UserType))
 	return u

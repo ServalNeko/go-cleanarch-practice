@@ -6,6 +6,5 @@ type IUserRepository interface {
 	FindByIds(ids []string) ([]User, error)
 	FindAll() ([]User, error)
 	Save(user *User) error
-	Update(user *User) error
 	Delete(user *User) error
 }

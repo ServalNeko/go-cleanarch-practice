@@ -5,6 +5,5 @@ type ICircleRepository interface {
 	FindByName(name string) (*Circle, error)
 	FindAll() ([]Circle, error)
 	Save(circle *Circle) error
-	Update(circle *Circle) error
 	Delete(circle *Circle) error
 }

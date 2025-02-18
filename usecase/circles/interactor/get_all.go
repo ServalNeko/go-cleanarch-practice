@@ -5,19 +5,19 @@ import (
 	"go-arch-practice/usecase/circles/ports"
 )
 
-type CiecleGetAllInteractor struct {
+type CircleGetAllInteractor struct {
 	repo domain.ICircleRepository
 }
 
-var _ ports.ICircleGetAllInputPort = (*CiecleGetAllInteractor)(nil)
+var _ ports.ICircleGetAllInputPort = (*CircleGetAllInteractor)(nil)
 
-func NewCiecleGetAllInteractor(repo domain.ICircleRepository) *CiecleGetAllInteractor {
-	return &CiecleGetAllInteractor{
+func NewCircleGetAllInteractor(repo domain.ICircleRepository) *CircleGetAllInteractor {
+	return &CircleGetAllInteractor{
 		repo: repo,
 	}
 }
 
-func (c *CiecleGetAllInteractor) Handle() (*ports.CircleGetAllOutputData, error) {
+func (c *CircleGetAllInteractor) Handle() (*ports.CircleGetAllOutputData, error) {
 
 	ciecles, err := c.repo.FindAll()
 	if err != nil {
